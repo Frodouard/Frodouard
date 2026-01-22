@@ -1,5 +1,7 @@
 # FRODOUARD DEVELOPER
 **SOFTWARE PROGRMAMMER | WEB DEVELOPER  Native apps developer |**
+
+
 [![NestJS](https://img.shields.io/badge/NestJS-1a202c?style=flat&logo=nestjs&logoColor=e53e3e)](https://nestjs.com)
 [![Vue.js](https://img.shields.io/badge/Vue.js-1a202c?style=flat&logo=vue.js&logoColor=4fc08d)](https://vuejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-1a202c?style=flat&logo=typescript&logoColor=3178c6)](https://typescriptlang.org)
@@ -14,8 +16,6 @@
 ![Python](https://img.shields.io/badge/Python-1a202c?style=flat&logo=python&logoColor=3776ab)
 ![JavaScript](https://img.shields.io/badge/JavaScript-1a202c?style=flat&logo=javascript&logoColor=f7df1e)
 ![TypeScript](https://img.shields.io/badge/TypeScript-1a202c?style=flat&logo=typescript&logoColor=3178c6)
-![Rust](https://img.shields.io/badge/Rust-1a202c?style=flat&logo=rust&logoColor=ce422b)
-![Go](https://img.shields.io/badge/Go-1a202c?style=flat&logo=go&logoColor=00add8)
 
 ### Frameworks & Libraries
 ![React](https://img.shields.io/badge/React-1a202c?style=flat&logo=react&logoColor=61dafb)
@@ -24,8 +24,7 @@
 
 ### Databases
 ![MongoDB](https://img.shields.io/badge/MongoDB-1a202c?style=flat&logo=mongodb&logoColor=47a248)
-![MySQL](https://img.shields.io/badge/MySQL-1a202c?style=flat&logo=mysql&logoColor=4479a1)
-
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase&logoColor=white)
 
 ### Tools & Technologies
 ![Git](https://img.shields.io/badge/Git-1a202c?style=flat&logo=git&logoColor=f05032)
