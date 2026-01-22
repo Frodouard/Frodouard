@@ -108,12 +108,12 @@
 [![Email](https://img.shields.io/badge/Email-1a202c?style=flat&logo=gmail&logoColor=ea4335)](mailto:frodouardhagenimana6@gmail.com)
 [![WhatsApp](https://img.shields.io/badge/WhatsApp-1a202c?style=flat&logo=whatsapp&logoColor=25D366)](https://wa.me/250786912775)
 [![Instagram](https://img.shields.io/badge/Instagram-1a202c?style=flat&logo=instagram&logoColor=E4405F)](https://instagram.com/legsonbenzine)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-1a202c?style=flat&logo=linkedin&logoColor=0A66C2)](https://www.linkedin.com/in/hagenimana-frodouard)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-1a202c?style=flat&logo=linkedin&logoColor=0A66C2)](https://www.linkedin.com/in/hagenimana-frodouard-193862356)
 
 
 
 ---
 
 <div align="center">
-  <sub>Built with ❤️ by NIYIBIZI Maximilien</sub>
+  <sub>Built with ❤️ by HAGENIMANA Frodouard</sub>
 </div>
