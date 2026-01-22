@@ -57,18 +57,18 @@
 <tr>
 <td align="center" width="50%">
 
-**🐍 Python** `25.0%` 
+**🐍 Python** `90.0%` 
 \`\`\`
 ████████████▌░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 
 \`\`\`
 
 
-**🔷 TypeScript** `15.0%` 
+**🔷 TypeScript** `75.0%` 
 \`\`\`
 ███████▌░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 \`\`\`
 
-**☕ Java** `12.5%` 
+**☕ Java** `70.5%` 
 \`\`\`
 ██████▎░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 
 \`\`\`
@@ -79,17 +79,17 @@
 
 
 
-**💛 JavaScript** `8.75%` 
+**💛 JavaScript** `75%` 
 \`\`\`
 ████▍░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 
 \`\`\`
 
-**🔧 C++** `6.25%` 
+**🔧 C++** `95%` 
 \`\`\`
 ███▏░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 
 \`\`\`
 
-**🌐 HTML** `3.75%` 
+**🌐 HTML** `100%` 
 \`\`\`
 █▉░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 
 \`\`\`
@@ -105,9 +105,12 @@
 ## Contact
 
 
-[![Twitter](https://img.shields.io/badge/x-1a202c?style=flat&logo=twitter&logoColor=1da1f2)](https://x.com/wamukapo)
-[![Email](https://img.shields.io/badge/Email-1a202c?style=flat&logo=gmail&logoColor=ea4335)](mailto:niyibizimaximilien)
-[![Discord](https://img.shields.io/badge/Discord-1a202c?style=flat&logo=discord&logoColor=5865f2)](https://discord.gg/maximmilien_69102)
+[![Email](https://img.shields.io/badge/Email-1a202c?style=flat&logo=gmail&logoColor=ea4335)](mailto:frodouardhagenimana6@gmail.com)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-1a202c?style=flat&logo=whatsapp&logoColor=25D366)](https://wa.me/250786912775)
+[![Instagram](https://img.shields.io/badge/Instagram-1a202c?style=flat&logo=instagram&logoColor=E4405F)](https://instagram.com/LEGSON Benzine)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-1a202c?style=flat&logo=linkedin&logoColor=0A66C2)](https://www.linkedin.com/in/HAGENIMANA Frodouard)
+
+
 
 ---
 
