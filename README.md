@@ -44,8 +44,8 @@
 ## GitHub Statistics
 
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=niyibizimaximilien&show_icons=true&theme=dark&hide_border=true&bg_color=1a202c&title_color=ffffff&text_color=a0aec0&icon_color=4a5568" alt="GitHub Stats" width="48%" />
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=niyibizimaximilien&theme=dark&hide_border=true&background=1a202c&stroke=4a5568&ring=4a5568&fire=4a5568&currStreakLabel=ffffff&sideLabels=ffffff&currStreakNum=ffffff&sideNums=a0aec0&dates=a0aec0" alt="GitHub Streak" width="48%" />
+  <img src="https://github-readme-stats.vercel.app/api?username=Frodouard&show_icons=true&theme=dark&hide_border=true&bg_color=1a202c&title_color=ffffff&text_color=a0aec0&icon_color=4a5568" alt="GitHub Stats" width="48%" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Frodouard&theme=dark&hide_border=true&background=1a202c&stroke=4a5568&ring=4a5568&fire=4a5568&currStreakLabel=ffffff&sideLabels=ffffff&currStreakNum=ffffff&sideNums=a0aec0&dates=a0aec0" alt="GitHub Streak" width="48%" />
 </div>
 
 <!-- Replaced GitHub's language stats with custom evenly distributed percentages -->
