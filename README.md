@@ -16,6 +16,7 @@
 ![Python](https://img.shields.io/badge/Python-1a202c?style=flat&logo=python&logoColor=3776ab)
 ![JavaScript](https://img.shields.io/badge/JavaScript-1a202c?style=flat&logo=javascript&logoColor=f7df1e)
 ![TypeScript](https://img.shields.io/badge/TypeScript-1a202c?style=flat&logo=typescript&logoColor=3178c6)
+![Java](https://img.shields.io/badge/Java-007396?style=flat&logo=java&logoColor=white)
 
 ### Frameworks & Libraries
 ![React](https://img.shields.io/badge/React-1a202c?style=flat&logo=react&logoColor=61dafb)
