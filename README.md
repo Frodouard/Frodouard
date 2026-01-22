@@ -37,7 +37,7 @@
 ![Cisco](https://img.shields.io/badge/Cisco-1BA0E1?style=flat&logo=cisco&logoColor=white)
 
 
-**SOFTWARE ENGINEERING, CYBER SECURITY, CISCO, **
+**SOFTWARE ENGINEERING, CYBER SECURITY, CISCO,**
 
 ---
 
