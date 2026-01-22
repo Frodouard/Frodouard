@@ -32,10 +32,12 @@
 
 ## Currently Learning
 
-![AWS](https://img.shields.io/badge/AWS-1a202c?style=flat&logo=amazon-aws&logoColor=ff9900)
-![GraphQL](https://img.shields.io/badge/GraphQL-1a202c?style=flat&logo=graphql&logoColor=e10098)
-![Flutter](https://img.shields.io/badge/Flutter-1a202c?style=flat&logo=flutter&logoColor=02569b)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-1a202c?style=flat&logo=kubernetes&logoColor=326ce5)
+![Software Engineering](https://img.shields.io/badge/Software%20Engineering-6f42c1?style=flat&logoColor=white)
+![Cyber Security](https://img.shields.io/badge/Cyber%20Security-ff6f61?style=flat&logoColor=white)
+![Cisco](https://img.shields.io/badge/Cisco-1BA0E1?style=flat&logo=cisco&logoColor=white)
+
+
+**SOFTWARE ENGINEERING, CYBER SECURITY, CISCO, **
 
 ---
 
