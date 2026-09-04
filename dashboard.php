@@ -2,7 +2,7 @@
 
 session_start();
 
-require_once "config.php";
+include "config/database.php";
 
 if (!isset($_SESSION["user_id"])) {
 
@@ -11,48 +11,43 @@ if (!isset($_SESSION["user_id"])) {
     exit();
 }
 
-$total_patients = 0;
-$total_consultations = 0;
-$error = "";
+$customers = 0;
+$reservations = 0;
+$rooms = 0;
 
 try {
 
-    $patient_result = $conn->query(
-        "SELECT COUNT(*) AS total FROM patients"
-    );
+    $customers = (int) $conn->query(
+        "SELECT COUNT(*) AS total
+         FROM customers"
+    )->fetch_assoc()["total"];
 
-    $patient_data = $patient_result->fetch_assoc();
+    $reservations = (int) $conn->query(
+        "SELECT COUNT(*) AS total
+         FROM reservations"
+    )->fetch_assoc()["total"];
 
-    $total_patients = $patient_data["total"];
-
-    $consultation_result = $conn->query(
-        "SELECT COUNT(*) AS total FROM consultations"
-    );
-
-    $consultation_data = $consultation_result->fetch_assoc();
-
-    $total_consultations = $consultation_data["total"];
+    $rooms = (int) $conn->query(
+        "SELECT COUNT(*) AS total
+         FROM rooms"
+    )->fetch_assoc()["total"];
 
 } catch (mysqli_sql_exception $e) {
 
-    $error = "Could not load dashboard data. Please try again later.";
+    $error = "Could not load dashboard statistics.";
 }
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
-    <meta charset="UTF-8">
+    <title>Hotel Dashboard</title>
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Dashboard</title>
-
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet"
+          href="css/style.css">
 
 </head>
 
@@ -60,48 +55,71 @@ try {
 
 <nav>
 
-    <h2>Hospital System</h2>
+    <h2>Hotel Reservation System</h2>
 
-    <a href="dashboard.php">Dashboard</a>
-    <a href="patient_add.php">Register Patient</a>
-    <a href="patient_list.php">Patients</a>
-    <a href="consultant_list.php">Consultations</a>
-    <a href="logout.php">Logout</a>
+    <a href="dashboard.php">
+        Dashboard
+    </a>
+
+    <a href="customers/add.php">
+        Customers
+    </a>
+
+    <a href="reservations/add.php">
+        Reservation
+    </a>
+
+    <a href="reservations/list.php">
+        Reservations
+    </a>
+
+    <a href="logout.php">
+        Logout
+    </a>
 
 </nav>
 
 <div class="dashboard">
 
-    <h1>Welcome,
-        <?php echo htmlspecialchars($_SESSION["full_name"]); ?>
+    <h1>
+        Welcome,
+        <?php echo htmlspecialchars(
+            $_SESSION["full_name"]
+        ); ?>
     </h1>
 
-    <?php if ($error != ""): ?>
-
-        <p class="error">
-            <?php echo htmlspecialchars($error); ?>
-        </p>
-
+    <?php if (!empty($error)): ?>
+        <p class="error"><?php echo htmlspecialchars($error); ?></p>
     <?php endif; ?>
 
     <div class="cards">
 
         <div class="card">
 
-            <h3>Total Patients</h3>
+            <h3>Customers</h3>
 
             <p>
-                <?php echo htmlspecialchars($total_patients); ?>
+                <?php echo $customers; ?>
             </p>
 
         </div>
 
         <div class="card">
 
-            <h3>Total Consultations</h3>
+            <h3>Rooms</h3>
 
             <p>
-                <?php echo htmlspecialchars($total_consultations); ?>
+                <?php echo $rooms; ?>
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Reservations</h3>
+
+            <p>
+                <?php echo $reservations; ?>
             </p>
 
         </div>

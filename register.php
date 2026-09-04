@@ -1,9 +1,9 @@
 <?php
 
-require_once "config.php";
+include "config/database.php";
 
 $message = "";
-$is_error = false;
+$message_type = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -14,17 +14,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($full_name === "" || $email === "" || $password === "") {
 
         $message = "Please fill in all fields.";
-        $is_error = true;
 
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
         $message = "Please enter a valid email address.";
-        $is_error = true;
 
     } elseif (strlen($password) < 6) {
 
-        $message = "Password must be at least 6 characters long.";
-        $is_error = true;
+        $message = "Password must be at least 6 characters.";
 
     } else {
 
@@ -32,34 +29,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         try {
 
-            $sql = "INSERT INTO users (full_name, email, password)
+            $sql = "INSERT INTO users
+                    (full_name, email, password)
                     VALUES (?, ?, ?)";
 
             $stmt = $conn->prepare($sql);
 
-            $stmt->bind_param(
-                "sss",
-                $full_name,
-                $email,
-                $hashed_password
-            );
+            $stmt->bind_param("sss", $full_name, $email, $hashed_password);
 
-            $stmt->execute();
+            if ($stmt->execute()) {
 
-            $message = "Registration successful. You can now login.";
+                $message = "Registration successful. You can now log in.";
+                $message_type = "success";
+
+            }
 
         } catch (mysqli_sql_exception $e) {
 
             if ($e->getCode() == 1062) {
 
-                $message = "Email already exists. Please login instead.";
+                $message = "Registration failed. Email already exists.";
 
             } else {
 
-                $message = "Registration failed due to a database error. Please try again.";
+                $message = "Something went wrong. Please try again.";
             }
-
-            $is_error = true;
         }
     }
 }
@@ -67,13 +61,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Staff Registration</title>
-
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -81,52 +72,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="form-container">
 
-    <h2>Staff Registration</h2>
+    <h2>Hotel Staff Registration</h2>
 
-    <?php if ($message != ""): ?>
-        <p class="<?php echo $is_error ? 'error' : 'message'; ?>">
-            <?php echo htmlspecialchars($message); ?>
-        </p>
-    <?php endif; ?>
+    <p class="<?php echo $message_type === "success" ? "success" : "error"; ?>">
+        <?php echo htmlspecialchars($message); ?>
+    </p>
 
-    <form method="POST" onsubmit="return validateRegistration()">
+    <form method="POST">
 
         <label>Full Name</label>
+
         <input
             type="text"
             name="full_name"
-            id="full_name"
             required
         >
 
         <label>Email</label>
+
         <input
             type="email"
             name="email"
-            id="email"
             required
         >
 
         <label>Password</label>
+
         <input
             type="password"
             name="password"
-            id="password"
             required
         >
 
-        <button type="submit">Register</button>
+        <button type="submit">
+            Register
+        </button>
 
     </form>
 
     <p>
-        Already have an account?
+        Already registered?
         <a href="login.php">Login</a>
     </p>
 
 </div>
-
-<script src="js/script.js"></script>
 
 </body>
 </html>

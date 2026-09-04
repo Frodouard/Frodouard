@@ -2,10 +2,9 @@
 
 session_start();
 
-require_once "config.php";
+include "config/database.php";
 
 $message = "";
-$is_error = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -14,8 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($email === "" || $password === "") {
 
-        $message = "Please enter your email and password.";
-        $is_error = true;
+        $message = "Please enter email and password.";
 
     } else {
 
@@ -37,29 +35,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 if (password_verify($password, $user["password"])) {
 
+                    session_regenerate_id(true);
+
                     $_SESSION["user_id"] = $user["id"];
                     $_SESSION["full_name"] = $user["full_name"];
-                    $_SESSION["role"] = $user["role"];
 
                     header("Location: dashboard.php");
                     exit();
-
-                } else {
-
-                    $message = "Incorrect password.";
-                    $is_error = true;
                 }
+
+                $message = "Incorrect password.";
 
             } else {
 
                 $message = "User not found.";
-                $is_error = true;
             }
 
         } catch (mysqli_sql_exception $e) {
 
-            $message = "Login failed due to a database error. Please try again.";
-            $is_error = true;
+            $message = "Something went wrong. Please try again.";
         }
     }
 }
@@ -67,18 +61,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
-    <meta charset="UTF-8">
+    <title>Hotel Login</title>
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Login</title>
-
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet"
+          href="css/style.css">
 
 </head>
 
@@ -86,15 +76,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="form-container">
 
-    <h2>Staff Login</h2>
+    <h2>Hotel Staff Login</h2>
 
-    <?php if ($message != ""): ?>
-
-        <p class="<?php echo $is_error ? 'error' : 'message'; ?>">
-            <?php echo htmlspecialchars($message); ?>
-        </p>
-
-    <?php endif; ?>
+    <p class="error">
+        <?php echo htmlspecialchars($message); ?>
+    </p>
 
     <form method="POST">
 
@@ -114,14 +100,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             required
         >
 
-        <button type="submit">Login</button>
+        <button type="submit">
+            Login
+        </button>
 
     </form>
 
-    <p>
-        Don't have an account?
-        <a href="register.php">Register</a>
-    </p>
+    <a href="register.php">
+        Create Account
+    </a>
 
 </div>
 
