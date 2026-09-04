@@ -1,43 +1,54 @@
 <?php
 
+session_start();
+
 require_once "config.php";
 
-require_login("login.php");
+if (!isset($_SESSION["user_id"])) {
 
-$employees = 0;
-$payroll = 0;
-$net_salary = 0;
+    header("Location: login.php");
+
+    exit();
+}
+
+$total_patients = 0;
+$total_consultations = 0;
+$error = "";
 
 try {
 
-    $employees = (int)$conn->query(
-        "SELECT COUNT(*) AS total FROM employees"
-    )->fetch_assoc()["total"];
+    $patient_result = $conn->query(
+        "SELECT COUNT(*) AS total FROM patients"
+    );
 
-    $payroll = (int)$conn->query(
-        "SELECT COUNT(*) AS total FROM payroll"
-    )->fetch_assoc()["total"];
+    $patient_data = $patient_result->fetch_assoc();
 
-    $net_salary = (float)$conn->query(
-        "SELECT COALESCE(SUM(net_salary),0) AS total
-         FROM payroll"
-    )->fetch_assoc()["total"];
+    $total_patients = $patient_data["total"];
+
+    $consultation_result = $conn->query(
+        "SELECT COUNT(*) AS total FROM consultations"
+    );
+
+    $consultation_data = $consultation_result->fetch_assoc();
+
+    $total_consultations = $consultation_data["total"];
 
 } catch (mysqli_sql_exception $e) {
 
-    error_log("Dashboard query error: " . $e->getMessage());
-
-    flash_set("error", "Could not load dashboard statistics.");
+    $error = "Could not load dashboard data. Please try again later.";
 }
-
-$flash = flash_get();
 
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Dashboard</title>
 
@@ -49,68 +60,50 @@ $flash = flash_get();
 
 <nav>
 
-    <h2>Payroll System</h2>
+    <h2>Hospital System</h2>
 
     <a href="dashboard.php">Dashboard</a>
-
-    <a href="employees/add.php">
-        Register Employee
-    </a>
-
-    <a href="employees/list.php">
-        Employees
-    </a>
-
-    <a href="payroll/add.php">
-        Record Salary
-    </a>
-
-    <a href="payroll/list.php">
-        Payroll
-    </a>
-
-    <a href="payroll/search.php">
-        Search
-    </a>
-
-    <a href="payroll/report.php">
-        Reports
-    </a>
-
-    <a href="logout.php">
-        Logout
-    </a>
+    <a href="patient_add.php">Register Patient</a>
+    <a href="patient_list.php">Patients</a>
+    <a href="consultant_list.php">Consultations</a>
+    <a href="logout.php">Logout</a>
 
 </nav>
 
-<div class="container">
+<div class="dashboard">
 
-    <h1>Welcome, <?= e($_SESSION["full_name"]) ?></h1>
+    <h1>Welcome,
+        <?php echo htmlspecialchars($_SESSION["full_name"]); ?>
+    </h1>
 
-    <?php if (!empty($flash["message"])): ?>
-        <p class="<?= e($flash["type"] === "error" ? "error" : "message") ?>">
-            <?= e($flash["message"]) ?>
+    <?php if ($error != ""): ?>
+
+        <p class="error">
+            <?php echo htmlspecialchars($error); ?>
         </p>
+
     <?php endif; ?>
 
     <div class="cards">
 
         <div class="card">
-            <h3>Total Employees</h3>
-            <h1><?= e($employees) ?></h1>
+
+            <h3>Total Patients</h3>
+
+            <p>
+                <?php echo htmlspecialchars($total_patients); ?>
+            </p>
+
         </div>
 
         <div class="card">
-            <h3>Payroll Records</h3>
-            <h1><?= e($payroll) ?></h1>
-        </div>
 
-        <div class="card">
-            <h3>Total Net Salary</h3>
-            <h1>
-                <?= number_format($net_salary, 2) ?>
-            </h1>
-            <p>RWF</p>
+            <h3>Total Consultations</h3>
+
+            <p>
+                <?php echo htmlspecialchars($total_consultations); ?>
+            </p>
+
         </div>
 
     </div>

@@ -1,57 +1,65 @@
 <?php
 
+session_start();
+
 require_once "config.php";
 
 $message = "";
-$email = "";
+$is_error = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    csrf_verify();
 
     $email = trim($_POST["email"] ?? "");
     $password = $_POST["password"] ?? "";
 
     if ($email === "" || $password === "") {
 
-        $message = "Email and password are required.";
-
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-
-        $message = "Please enter a valid email address.";
+        $message = "Please enter your email and password.";
+        $is_error = true;
 
     } else {
 
         try {
 
-            $stmt = $conn->prepare(
-                "SELECT * FROM users WHERE email = ?"
-            );
+            $sql = "SELECT * FROM users WHERE email = ?";
+
+            $stmt = $conn->prepare($sql);
 
             $stmt->bind_param("s", $email);
+
             $stmt->execute();
 
-            $user = $stmt->get_result()->fetch_assoc();
+            $result = $stmt->get_result();
 
-            if ($user && password_verify($password, $user["password"])) {
+            if ($result->num_rows == 1) {
 
-                session_regenerate_id(true);
+                $user = $result->fetch_assoc();
 
-                $_SESSION["user_id"] = $user["id"];
-                $_SESSION["full_name"] = $user["full_name"];
+                if (password_verify($password, $user["password"])) {
 
-                redirect("dashboard.php");
+                    $_SESSION["user_id"] = $user["id"];
+                    $_SESSION["full_name"] = $user["full_name"];
+                    $_SESSION["role"] = $user["role"];
+
+                    header("Location: dashboard.php");
+                    exit();
+
+                } else {
+
+                    $message = "Incorrect password.";
+                    $is_error = true;
+                }
 
             } else {
 
-                $message = "Invalid email or password.";
+                $message = "User not found.";
+                $is_error = true;
             }
 
         } catch (mysqli_sql_exception $e) {
 
-            error_log("Login error: " . $e->getMessage());
-
-            $message = "Login failed. Please try again later.";
+            $message = "Login failed due to a database error. Please try again.";
+            $is_error = true;
         }
     }
 }
@@ -59,37 +67,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Login</title>
+
     <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
 
 <div class="form-container">
 
-    <h2>Employee Payroll System</h2>
+    <h2>Staff Login</h2>
 
-    <h3>Login</h3>
+    <?php if ($message != ""): ?>
 
-    <?php if ($message): ?>
-        <p class="error">
-            <?= e($message) ?>
+        <p class="<?php echo $is_error ? 'error' : 'message'; ?>">
+            <?php echo htmlspecialchars($message); ?>
         </p>
+
     <?php endif; ?>
 
     <form method="POST">
-
-        <?= csrf_field() ?>
 
         <label>Email</label>
 
         <input
             type="email"
             name="email"
-            value="<?= e($email) ?>"
             required
         >
 
@@ -101,9 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             required
         >
 
-        <button type="submit">
-            Login
-        </button>
+        <button type="submit">Login</button>
 
     </form>
 
