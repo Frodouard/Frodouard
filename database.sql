@@ -1,65 +1,50 @@
-CREATE DATABASE IF NOT EXISTS hotel_reservation;
+CREATE DATABASE IF NOT EXISTS vehicle_service;
 
-USE hotel_reservation;
+USE vehicle_service;
 
-DROP TABLE IF EXISTS reservations;
-DROP TABLE IF EXISTS customers;
-DROP TABLE IF EXISTS rooms;
-DROP TABLE IF EXISTS users;
-
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE customers (
+CREATE TABLE IF NOT EXISTS customers (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id VARCHAR(20) UNIQUE NOT NULL,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
+    customer_code VARCHAR(30) NOT NULL UNIQUE,
+    full_name VARCHAR(100) NOT NULL,
+    phone VARCHAR(30) NOT NULL,
     email VARCHAR(100),
     address VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE rooms (
+CREATE TABLE IF NOT EXISTS vehicles (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    room_number VARCHAR(20) UNIQUE NOT NULL,
-    room_type VARCHAR(50) NOT NULL,
-    price_per_night DECIMAL(10,2) NOT NULL,
-    status VARCHAR(30) DEFAULT 'Available'
-);
-
-CREATE TABLE reservations (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    booking_id VARCHAR(20) UNIQUE NOT NULL,
+    registration_number VARCHAR(30) NOT NULL UNIQUE,
     customer_id INT NOT NULL,
-    room_id INT NOT NULL,
-    check_in DATE NOT NULL,
-    check_out DATE NOT NULL,
-    number_of_nights INT NOT NULL,
-    total_cost DECIMAL(10,2) NOT NULL,
-    status VARCHAR(30) DEFAULT 'Reserved',
+    vehicle_type VARCHAR(50) NOT NULL,
+    brand VARCHAR(50) NOT NULL,
+    model VARCHAR(50) NOT NULL,
+    vehicle_year INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (customer_id)
-        REFERENCES customers(id),
-
-    FOREIGN KEY (room_id)
-        REFERENCES rooms(id)
+    REFERENCES customers(id)
+    ON DELETE CASCADE
 );
 
-INSERT INTO rooms (room_number, room_type, price_per_night, status) VALUES
-('101', 'Single', 20000.00, 'Available'),
-('102', 'Single', 20000.00, 'Available'),
-('201', 'Double', 35000.00, 'Available'),
-('202', 'Double', 35000.00, 'Available'),
-('301', 'Suite', 60000.00, 'Available'),
-('302', 'Suite', 60000.00, 'Available');
+CREATE TABLE IF NOT EXISTS services (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vehicle_id INT NOT NULL,
+    service_date DATE NOT NULL,
+    service_performed VARCHAR(150) NOT NULL,
+    description TEXT,
+    service_charge DECIMAL(12,2) NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-INSERT INTO users (full_name, email, password)
-VALUES ('Admin', 'admin@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
+    FOREIGN KEY (vehicle_id)
+    REFERENCES vehicles(id)
+    ON DELETE CASCADE
+);

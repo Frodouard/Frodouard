@@ -2,40 +2,40 @@
 
 session_start();
 
-include "config/database.php";
+require_once "config.php";
 
 if (!isset($_SESSION["user_id"])) {
 
     header("Location: login.php");
 
-    exit();
+    exit;
 }
 
-$customers = 0;
-$reservations = 0;
-$rooms = 0;
-
-try {
-
-    $customers = (int) $conn->query(
+$total_customers =
+    $conn->query(
         "SELECT COUNT(*) AS total
          FROM customers"
     )->fetch_assoc()["total"];
 
-    $reservations = (int) $conn->query(
+$total_vehicles =
+    $conn->query(
         "SELECT COUNT(*) AS total
-         FROM reservations"
+         FROM vehicles"
     )->fetch_assoc()["total"];
 
-    $rooms = (int) $conn->query(
+$total_services =
+    $conn->query(
         "SELECT COUNT(*) AS total
-         FROM rooms"
+         FROM services"
     )->fetch_assoc()["total"];
 
-} catch (mysqli_sql_exception $e) {
-
-    $error = "Could not load dashboard statistics.";
-}
+$total_revenue =
+    $conn->query(
+        "SELECT COALESCE(
+            SUM(service_charge),0
+         ) AS total
+         FROM services"
+    )->fetch_assoc()["total"];
 
 ?>
 
@@ -44,7 +44,7 @@ try {
 
 <head>
 
-    <title>Hotel Dashboard</title>
+    <title>Dashboard</title>
 
     <link rel="stylesheet"
           href="css/style.css">
@@ -55,22 +55,40 @@ try {
 
 <nav>
 
-    <h2>Hotel Reservation System</h2>
+    <div class="logo">
+        Vehicle Service System
+    </div>
 
     <a href="dashboard.php">
         Dashboard
     </a>
 
     <a href="customers/add.php">
+        Add Customer
+    </a>
+
+    <a href="customers/list.php">
         Customers
     </a>
 
-    <a href="reservations/add.php">
-        Reservation
+    <a href="vehicles/add.php">
+        Add Vehicle
     </a>
 
-    <a href="reservations/list.php">
-        Reservations
+    <a href="vehicles/list.php">
+        Vehicles
+    </a>
+
+    <a href="services/add.php">
+        Add Service
+    </a>
+
+    <a href="services/list.php">
+        Services
+    </a>
+
+    <a href="services/search.php">
+        Search
     </a>
 
     <a href="logout.php">
@@ -79,48 +97,67 @@ try {
 
 </nav>
 
-<div class="dashboard">
+<div class="container">
 
     <h1>
         Welcome,
-        <?php echo htmlspecialchars(
+        <?= htmlspecialchars(
             $_SESSION["full_name"]
-        ); ?>
+        ) ?>
     </h1>
-
-    <?php if (!empty($error)): ?>
-        <p class="error"><?php echo htmlspecialchars($error); ?></p>
-    <?php endif; ?>
 
     <div class="cards">
 
         <div class="card">
 
-            <h3>Customers</h3>
+            <h3>
+                Customers
+            </h3>
 
-            <p>
-                <?php echo $customers; ?>
-            </p>
-
-        </div>
-
-        <div class="card">
-
-            <h3>Rooms</h3>
-
-            <p>
-                <?php echo $rooms; ?>
-            </p>
+            <h1>
+                <?= $total_customers ?>
+            </h1>
 
         </div>
 
         <div class="card">
 
-            <h3>Reservations</h3>
+            <h3>
+                Vehicles
+            </h3>
 
-            <p>
-                <?php echo $reservations; ?>
-            </p>
+            <h1>
+                <?= $total_vehicles ?>
+            </h1>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+                Services
+            </h3>
+
+            <h1>
+                <?= $total_services ?>
+            </h1>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+                Total Revenue
+            </h3>
+
+            <h1>
+                <?= number_format(
+                    $total_revenue,
+                    2
+                ) ?>
+            </h1>
+
+            <p>RWF</p>
 
         </div>
 
@@ -129,4 +166,5 @@ try {
 </div>
 
 </body>
+
 </html>

@@ -3,16 +3,27 @@
 $host = "localhost";
 $username = "root";
 $password = "";
-$database = "hospital_system";
+$database = "vehicle_service";
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+$conn = new mysqli(
+    $host,
+    $username,
+    $password,
+    $database
+);
 
-try {
-    $conn = new mysqli($host, $username, $password, $database);
-    $conn->set_charset("utf8mb4");
-} catch (mysqli_sql_exception $e) {
-    http_response_code(500);
-    die("Database connection failed. Please check your configuration and try again.");
+if ($conn->connect_error) {
+    error_log(
+        "Database connection failed: "
+        . $conn->connect_error
+    );
+
+    die(
+        "Database connection failed. "
+        . "Please check your configuration and try again."
+    );
 }
+
+$conn->set_charset("utf8mb4");
 
 ?>

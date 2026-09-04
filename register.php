@@ -1,58 +1,71 @@
 <?php
 
-include "config/database.php";
+session_start();
+
+require_once "config.php";
 
 $message = "";
-$message_type = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $full_name = trim($_POST["full_name"] ?? "");
-    $email = trim($_POST["email"] ?? "");
-    $password = $_POST["password"] ?? "";
+    $full_name = trim($_POST["full_name"]);
+    $email = trim($_POST["email"]);
+    $password = $_POST["password"];
 
-    if ($full_name === "" || $email === "" || $password === "") {
+    if (
+        empty($full_name) ||
+        empty($email) ||
+        empty($password)
+    ) {
 
-        $message = "Please fill in all fields.";
-
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-
-        $message = "Please enter a valid email address.";
-
-    } elseif (strlen($password) < 6) {
-
-        $message = "Password must be at least 6 characters.";
+        $message = "All fields are required.";
 
     } else {
 
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $check = $conn->prepare(
+            "SELECT id FROM users WHERE email = ?"
+        );
 
-        try {
+        $check->bind_param("s", $email);
+        $check->execute();
 
-            $sql = "INSERT INTO users
-                    (full_name, email, password)
-                    VALUES (?, ?, ?)";
+        $result = $check->get_result();
 
-            $stmt = $conn->prepare($sql);
+        if ($result->num_rows > 0) {
 
-            $stmt->bind_param("sss", $full_name, $email, $hashed_password);
+            $message = "Email already exists.";
+
+        } else {
+
+            $hashed_password =
+                password_hash(
+                    $password,
+                    PASSWORD_DEFAULT
+                );
+
+            $stmt = $conn->prepare(
+                "INSERT INTO users
+                (full_name, email, password)
+                VALUES (?, ?, ?)"
+            );
+
+            $stmt->bind_param(
+                "sss",
+                $full_name,
+                $email,
+                $hashed_password
+            );
 
             if ($stmt->execute()) {
 
-                $message = "Registration successful. You can now log in.";
-                $message_type = "success";
-
-            }
-
-        } catch (mysqli_sql_exception $e) {
-
-            if ($e->getCode() == 1062) {
-
-                $message = "Registration failed. Email already exists.";
+                $message =
+                    "Registration successful. You can now login.";
 
             } else {
 
-                $message = "Something went wrong. Please try again.";
+                $message =
+                    "Registration failed.";
+
             }
         }
     }
@@ -64,19 +77,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 
 <head>
+
     <title>Staff Registration</title>
-    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
 </head>
 
 <body>
 
-<div class="form-container">
+<div class="auth-container">
 
-    <h2>Hotel Staff Registration</h2>
+    <h1>Vehicle Service System</h1>
 
-    <p class="<?php echo $message_type === "success" ? "success" : "error"; ?>">
-        <?php echo htmlspecialchars($message); ?>
-    </p>
+    <h2>Staff Registration</h2>
+
+    <?php if ($message): ?>
+
+        <p class="message">
+            <?= htmlspecialchars($message) ?>
+        </p>
+
+    <?php endif; ?>
 
     <form method="POST">
 
@@ -112,10 +135,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <p>
         Already registered?
-        <a href="login.php">Login</a>
+        <a href="login.php">Login here</a>
     </p>
 
 </div>
 
 </body>
+
 </html>
